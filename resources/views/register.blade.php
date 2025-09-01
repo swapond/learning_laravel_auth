@@ -2,7 +2,7 @@
 @section('content')
     <div class="container-sm mt-4">
         <h1>Registration</h1>
-        <form action="" method="post">
+        <form action="{{route('register.post')}}" method="post">
             @csrf
             @method('post')
             <div class="mb-3">
@@ -23,6 +23,16 @@
                 <label for="password" class="form-label">Password</label>
                 <input type="password" class="form-control" id="password" name="password">
                 @error('password')
+                <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+            <div class="mb-3">
+                <div class="mb-3">
+                    <label for="password_confirmation" class="form-label">Confirm Password</label>
+                    <input type="password" class="form-control" id="password_confirmation" name="password_confirmation"
+                           required>
+                </div>
+                @error('password_confirmation')
                 <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>

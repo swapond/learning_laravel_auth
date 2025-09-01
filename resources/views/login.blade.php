@@ -2,14 +2,14 @@
 @section('content')
     <div class="container-md mt-4">
         <h1>Login</h1>
-        <form method="POST" action="">
+        <form method="POST" action="{{route('login.post')}}">
             @csrf
             @method('post')
             <div class="mb-3">
                 <label for="email" class="form-label">Email address</label>
                 <input type="email" class="form-control" id="email" name="email" required>
             </div>
-            @error('name')
+            @error('email')
             <div class="text-danger">{{ $message }}</div>
             @enderror
             <div class="mb-3">
@@ -19,7 +19,7 @@
             @error('password')
             <div class="text-danger">{{ $message }}</div>
             @enderror
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit" class="btn btn-primary">Login</button>
         </form>
     </div>
 @endsection

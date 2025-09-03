@@ -2,9 +2,9 @@
 
 namespace App\Http\Middleware;
 
-use Auth;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class ValidUser
@@ -14,13 +14,20 @@ class ValidUser
      *
      * @param Closure(Request): (Response) $next
      */
-    public function handle(Request $request, Closure $next, string $role): Response
+
+    // using gate in middleware
+
+    public function handle(Request $request, Closure $next): Response
     {
-        echo $role;
-        if (Auth::check() && Auth::user()->role === $role) {
-            return $next($request);
-        } else {
-            return redirect()->route('login.get');
-        }
+//        echo $role;
+//        if (Auth::check() && Auth::user()->role === $role) {
+//            return $next($request);
+//        } else {
+//            return redirect()->route('login.get');
+//        }
+
+        if (Gate::denies('isAdmin')) abort(403);
+
+        return $next($request);
     }
 }

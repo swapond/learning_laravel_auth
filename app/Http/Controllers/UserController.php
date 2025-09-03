@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
@@ -54,6 +55,17 @@ class UserController extends Controller
     {
         if (auth()->check()) {
             return view('deep');
+        } else {
+            return redirect()->route('login.get')->withErrors(['error' => 'You must be logged in to access the dashboard.']);
+        }
+    }
+
+    // using gate in the controller
+
+    public function dashboard()
+    {
+        if (Gate::allows('isAdmin')) {
+            return view('dashboard');
         } else {
             return redirect()->route('login.get')->withErrors(['error' => 'You must be logged in to access the dashboard.']);
         }

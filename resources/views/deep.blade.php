@@ -9,8 +9,25 @@
         </div>
     </div>
 
-    @if(auth()->check())
-        Logged in.
-        {{Auth::user()->name}}
+    {{--    in the view we can use gate to optionally display something on the page --}}
+    @if(Gate::allows('isAdmin'))
+        <div class="alert alert-info mt-4">
+            You are an admin.
+        </div>
     @endif
+
+    {{--    Or --}}
+    @can('isAdmin')
+        <div class="alert alert-info mt-4">
+            You are an admin.
+        </div>
+    @endcan
+
+    {{--    Vice-versa --}}
+    @cannot('isAdmin')
+        <div class="alert alert-warning mt-4">
+            You are not an admin.
+        </div>
+    @endcannot
+
 @endsection

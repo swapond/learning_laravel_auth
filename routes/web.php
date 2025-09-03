@@ -1,11 +1,15 @@
 <?php
 
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('home');
 });
+
+Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
 
 Route::get('/register', function () {
     return view('register');
@@ -19,11 +23,11 @@ Route::post('/login', [UserController::class, 'login'])->name('login.post');
 
 Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard')->middleware('auth');
+//Route::get('/dashboard', function () {
+//    return view('dashboard');
+//})->name('dashboard')->middleware('auth');
 
-Route::get('/deep', [UserController::class, 'deepPage'])->name('deep-page')->middleware(['isValidUser:admin']);
+Route::get('/deep', [UserController::class, 'deepPage'])->name('deep-page')->middleware(['can:isAdmin']); //using gate as middleware
 
 //middleware
 
@@ -36,3 +40,13 @@ Route::get('/deep', [UserController::class, 'deepPage'])->name('deep-page')->mid
 Route::middleware('isValidUser')->group(function () {
     //
 });
+
+
+Route::get('/season', [TestController::class, 'index'])->name('season.get');
+
+Route::get('store-season', [TestController::class, 'storeSeason'])->name('season.store');
+
+Route::get('delete-season', [TestController::class, 'deleteSeason']);
+
+
+Route::get('/posts', [PostController::class, 'index']);

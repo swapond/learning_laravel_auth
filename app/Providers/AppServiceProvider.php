@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -25,6 +26,14 @@ class AppServiceProvider extends ServiceProvider
     {
         Gate::define('isAdmin', function (User $user) {
             return $user->role === 'admin';
+        });
+
+        Gate::define('isUser', function (User $user, $profileUser) {
+            return $user->id === $profileUser->id;
+        });
+
+        Gate::define('isUserPost', function (User $user, Post $post) {
+            return $user->id === $post->user_id;
         });
     }
 }

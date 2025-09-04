@@ -64,11 +64,26 @@ class UserController extends Controller
 
     public function dashboard()
     {
-        if (Gate::allows('isAdmin')) {
-            return view('dashboard');
-        } else {
-            return redirect()->route('login.get')->withErrors(['error' => 'You must be logged in to access the dashboard.']);
-        }
+        // alternative
+////        Gate::authorize('isAdmin'); // rest of the code will not execute if not admin
+//        if (Gate::allows('isAdmin')) {
+//            return view('dashboard');
+//        } else {
+//            return redirect()->route('login.get')->withErrors(['error' => 'You must be logged in to access the dashboard.']);
+//        }
+        return view('dashboard');
+    }
+
+    public function superAdmin()
+    {
+        Gate::authorize('isAdmin');
+        return view('superAdmin');
+    }
+
+    public function profile()
+    {
+        $user = auth()->user();
+        return view('profile', compact('user'));
     }
 
     //

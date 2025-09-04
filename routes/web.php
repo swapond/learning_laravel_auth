@@ -9,7 +9,11 @@ Route::get('/', function () {
     return view('home');
 });
 
-Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
+Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard')->middleware('auth');
+
+Route::get('profile', [UserController::class, 'profile'])->name('profile');
+
+Route::get('posts/{post}', [PostController::class, 'show'])->name('posts.show');
 
 Route::get('/register', function () {
     return view('register');
@@ -28,6 +32,8 @@ Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 //})->name('dashboard')->middleware('auth');
 
 Route::get('/deep', [UserController::class, 'deepPage'])->name('deep-page')->middleware(['can:isAdmin']); //using gate as middleware
+
+Route::get('/super-admin', [UserController::class, 'superAdmin']);
 
 //middleware
 
@@ -49,4 +55,6 @@ Route::get('store-season', [TestController::class, 'storeSeason'])->name('season
 Route::get('delete-season', [TestController::class, 'deleteSeason']);
 
 
-Route::get('/posts', [PostController::class, 'index']);
+Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
+Route::post('/posts/{post}', [PostController::class, 'update'])->name('posts.update');
